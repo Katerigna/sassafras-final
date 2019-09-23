@@ -4,6 +4,13 @@ const compression = require("compression");
 const csurf = require("csurf");
 const db = require("./utils/db");
 const { hash, compare } = require("./utils/bc");
+const tesseract = require("node-tesseract-ocr");
+
+const config = {
+    lang: "eng",
+    oem: 1,
+    psm: 3
+};
 
 //compress
 app.use(compression());
@@ -11,7 +18,7 @@ app.use(compression());
 //get req.body
 app.use(express.json());
 
-//connect styles
+//connect public
 app.use(express.static("./public"));
 
 //cookies
@@ -46,6 +53,10 @@ if (process.env.NODE_ENV != "production") {
 }
 
 //routes
+app.get("/", (req, res) => {
+    res.redirect("/welcome");
+});
+
 app.post("/register", (req, res) => {
     console.log("request from post register: ", req.body);
 
@@ -57,6 +68,23 @@ app.post("/register", (req, res) => {
             })
             .catch(err => console.log("error on adding user to db: ", err));
     });
+});
+
+app.get("/scan", (req, res) => {
+    // console.log("user_id", req.session);
+    tesseract
+        .recognize(__dirname + "/test.png", config)
+        .then(text => {
+            console.log("ocr result", text);
+
+            const re = /\S+@\S+\.\S+/;
+
+            text.match(re).forEach(function(email) {
+                console.log("extracted email:", email);
+                db.addEmail(email, user_id);
+            });
+        })
+        .catch(err => console.log("error on ocr", err));
 });
 
 app.get("*", function(req, res) {
