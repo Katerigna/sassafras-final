@@ -5,7 +5,7 @@ if (process.env.DATABASE_URL) {
     db = spicedPg(process.env.DATABASE_URL);
 } else {
     const { dbuser, dbpass } = require("../secrets.json");
-    db = spicedPg(`postgres:${dbuser}:${dbpass}@localhost:5432/users`);
+    db = spicedPg(`postgres:${dbuser}:${dbpass}@localhost:5432/final_project`);
 }
 
 exports.addUser = function(first, last, email, password) {
@@ -23,6 +23,17 @@ exports.getPassword = function(email) {
             FROM users
             WHERE email=$1`,
             [email]
+        )
+        .then(({ rows }) => {
+            return rows;
+        });
+};
+
+exports.addEmail = function(user_id, owners_email) {
+    return db
+        .query(
+            `INSERT INTO cards (user_id, owners_email) VALUES ($1, $2) RETURNING id`,
+            [user_id, owners_email]
         )
         .then(({ rows }) => {
             return rows;

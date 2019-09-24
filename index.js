@@ -12,6 +12,30 @@ const config = {
     psm: 3
 };
 
+//file upload boiler plate
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+
+const diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152 //ca. 2 MB
+    }
+});
+//end of upload boiler plate
+
 //compress
 app.use(compression());
 
@@ -60,18 +84,31 @@ app.get("/", (req, res) => {
 app.post("/register", (req, res) => {
     console.log("request from post register: ", req.body);
 
-    hash(req.body.password).then(hash => {
-        db.addUser(req.body.first, req.body.last, req.body.email, hash)
-            .then(result => {
-                console.log("result from adding user to db: ", result.rows[0]);
-                res.json(result.rows[0]);
-            })
-            .catch(err => console.log("error on adding user to db: ", err));
-    });
+    hash(req.body.password)
+        .then(hash => {
+            db.addUser(req.body.first, req.body.last, req.body.email, hash)
+                .then(result => {
+                    console.log(
+                        "result from adding user to db: ",
+                        result.rows[0]
+                    );
+                    req.session.userId = result.rows[0].id;
+                    res.json(result.rows[0]);
+                })
+                .catch(err => {
+                    console.log("error on adding user to db: ", err);
+                    res.json(err);
+                });
+        })
+        .catch(err => {
+            console.log("error on hashing: ", err);
+            res.json(err);
+        });
 });
 
-app.get("/scan", (req, res) => {
-    // console.log("user_id", req.session);
+app.post("/scan", uploader.single("file"), (req, res) => {
+    console.log("img", req.file);
+    console.log("user_id", req.session.userId);
     tesseract
         .recognize(__dirname + "/test.png", config)
         .then(text => {
@@ -81,7 +118,13 @@ app.get("/scan", (req, res) => {
 
             text.match(re).forEach(function(email) {
                 console.log("extracted email:", email);
-                db.addEmail(email, user_id);
+                db.addEmail(req.session.userId, email)
+                    .then(result => {
+                        console.log("result from adding email to db", result);
+                    })
+                    .catch(err => {
+                        console.log("err on adding email to db", err);
+                    });
             });
         })
         .catch(err => console.log("error on ocr", err));

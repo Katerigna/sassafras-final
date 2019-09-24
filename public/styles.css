@@ -29,19 +29,33 @@ body {
     margin: 0 20px;
 }
 
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .registration-form {
     display: flex;
     flex-direction: column;
+}
+
+.form-wrapper h2 {
+    width: 75%;
 }
 
 .registration-form input {
     width: 80%;
 
     border: none;
-    border-bottom: 1px solid #5e6073;
+    border-bottom: 3px solid #5e6073;
     background-color: #f2f2f2;
     font-size: 0.4em;
     margin: 0.3em;
+}
+
+.registration-form input:hover {
+    border: 3px solid #fd931a;
 }
 
 .registration-form label {
@@ -49,5 +63,20 @@ body {
 }
 
 .registration-form button {
+    font-size: 0.4em;
+}
+
+.registration-form button:hover {
     font-size: 0.6em;
+    color: #fd931a;
+}
+
+.error {
+    position: fixed;
+    width: 80%;
+
+    background-color: white;
+    font-size: 0.8em;
+    border: 3px solid #5e6073;
+    padding: 5%;
 }

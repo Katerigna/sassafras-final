@@ -3,20 +3,41 @@ import axios from "./axios";
 
 export default function Registration() {
     const [user, setUser] = useState({});
+    const [error, setError] = useState(false);
 
-    function handleChange(e) {
-        console.log("input first name", e.target.value);
-        console.log("input key", e.target.name);
+    const handleChange = e =>
         setUser({
+            ...user,
             [e.target.name]: e.target.value
         });
-        console.log("user: ", user);
-    }
+
+    const handleSubmit = e => {
+        console.log("user before axios", user);
+        e.preventDefault();
+        axios
+            .post("/register", user)
+            .then(response => {
+                console.log("response from server", response);
+                if (response.data.id == undefined) {
+                    setError(true);
+                }
+                if (response.data.id) {
+                    location.replace(`/app`);
+                }
+            })
+            .catch(err => console.log("error on registering", err));
+    };
 
     return (
-        <div>
+        <div className="form-wrapper">
+            {error && (
+                <div className="error">
+                    <div>Registration failed</div>
+                </div>
+            )}
+
             <h2>Please register</h2>
-            <form className="registration-form">
+            <form className="registration-form" onSubmit={handleSubmit}>
                 <label htmlFor="first" />
                 <input
                     type="text"
