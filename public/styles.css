@@ -8,6 +8,16 @@ body {
     background-color: #f2f2f2; /*grey*/
 }
 
+button {
+    background-color: #fd931a;
+    border: none;
+    border-radius: 5px;
+    color: #f2f2f2;
+    font-size: 0.4em;
+    padding: 4%;
+    margin: 5%;
+}
+
 .welcome-wrapper {
     display: flex;
     flex-direction: column;
@@ -35,16 +45,18 @@ body {
     align-items: center;
 }
 
-.registration-form {
+.reglogin-form {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .form-wrapper h2 {
     width: 75%;
+    margin-left: 25%;
 }
 
-.registration-form input {
+.reglogin-form input {
     width: 80%;
 
     border: none;
@@ -54,29 +66,49 @@ body {
     margin: 0.3em;
 }
 
-.registration-form input:hover {
-    border: 3px solid #fd931a;
+.reglogin-form input:hover {
+    border: 3px solid #fd931a; /*orange*/
 }
 
-.registration-form label {
+.reglogin-form label {
     font-size: 0.2em;
 }
 
-.registration-form button {
+.reglogin-form button {
     font-size: 0.4em;
 }
 
-.registration-form button:hover {
+.reglogin-form button:hover {
     font-size: 0.6em;
     color: #fd931a;
 }
 
-.error {
+.error,
+.modal {
     position: fixed;
     width: 80%;
-
     background-color: white;
     font-size: 0.8em;
     border: 3px solid #5e6073;
     padding: 5%;
+}
+
+.modal p {
+    font-size: 0.5em;
+}
+
+.webcam {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal button {
+    width: 33%;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
 }

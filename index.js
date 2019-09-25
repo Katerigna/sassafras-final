@@ -5,6 +5,7 @@ const csurf = require("csurf");
 const db = require("./utils/db");
 const { hash, compare } = require("./utils/bc");
 const tesseract = require("node-tesseract-ocr");
+const fs = require("fs");
 
 const config = {
     lang: "eng",
@@ -106,28 +107,78 @@ app.post("/register", (req, res) => {
         });
 });
 
-app.post("/scan", uploader.single("file"), (req, res) => {
-    console.log("img", req.file);
-    console.log("user_id", req.session.userId);
-    tesseract
-        .recognize(__dirname + "/test.png", config)
-        .then(text => {
-            console.log("ocr result", text);
-
-            const re = /\S+@\S+\.\S+/;
-
-            text.match(re).forEach(function(email) {
-                console.log("extracted email:", email);
-                db.addEmail(req.session.userId, email)
-                    .then(result => {
-                        console.log("result from adding email to db", result);
-                    })
-                    .catch(err => {
-                        console.log("err on adding email to db", err);
-                    });
-            });
+app.post("/login", (req, res) => {
+    db.getPassword(req.body.email)
+        .then(result => {
+            compare(req.body.password, result[0].password)
+                .then(match => {
+                    console.log("match", match);
+                    if (match) {
+                        req.session.userId = result[0].id;
+                        console.log("response from db on login", result[0].id);
+                        res.json(req.session.userId);
+                    } else {
+                        console.log("password wrong");
+                        res.json("Your password is wrong.");
+                    }
+                })
+                .catch(err => {
+                    console.log("error on login", err);
+                });
         })
-        .catch(err => console.log("error on ocr", err));
+        .catch(err => {
+            console.log("error on login", err);
+            res.json("error on login");
+        });
+});
+
+app.post("/scan", (req, res) => {
+    // console.log("user_id", req.session.userId);
+    // console.log("img", req.body.imageSrc);
+    const imgBase64 = req.body.imageSrc;
+    const imgFile = imgBase64.replace(/^data:image\/jpeg;base64,/, "");
+    // console.log("stripped image data", imgFile);
+    const imageBuffer = Buffer.from(imgFile, "base64");
+    fs.writeFile(
+        "uploads/img.jpeg",
+        imageBuffer,
+        { encoding: "base64" },
+        err => {
+            if (err) {
+                console.log("error on saving file", err);
+            }
+            console.log("File saved");
+            tesseract
+                .recognize(__dirname + "/uploads/img.jpeg", config)
+                .then(text => {
+                    console.log("ocr result", text);
+
+                    const re = /\S+@\S+\.\S+/;
+
+                    const email = text.match(re);
+
+                    email &&
+                        email.forEach(function(email) {
+                            console.log("extracted email:", email);
+                            db.addEmail(req.session.userId, email)
+                                .then(result => {
+                                    console.log(
+                                        "result from adding email to db",
+                                        result
+                                    );
+                                    res.json(email);
+                                })
+                                .catch(err => {
+                                    console.log(
+                                        "err on adding email to db",
+                                        err
+                                    );
+                                });
+                        });
+                })
+                .catch(err => console.log("error on ocr", err));
+        }
+    );
 });
 
 app.get("*", function(req, res) {

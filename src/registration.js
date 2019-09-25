@@ -37,7 +37,7 @@ export default function Registration() {
             )}
 
             <h2>Please register</h2>
-            <form className="registration-form" onSubmit={handleSubmit}>
+            <form className="reglogin-form" onSubmit={handleSubmit}>
                 <label htmlFor="first" />
                 <input
                     type="text"

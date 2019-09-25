@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "./axios";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import Scan from "./scan";
 
@@ -11,8 +10,7 @@ export default function App() {
                 <div className="welcome-container">
                     <h1>Add business card</h1>
 
-                    <Route path="/scan" component={Scan} />
-
+                    <Route exact path="/scan" component={Scan} />
                     <Link to="/scan">Scan</Link>
                 </div>
             </div>

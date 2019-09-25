@@ -11,7 +11,7 @@ export default function Welcome() {
                 <div className="welcome-container">
                     <h1>Welcome!</h1>
 
-                    <Route path="/login" component={Login} />
+                    <Route exact path="/login" component={Login} />
                     <Route exact path="/" component={Registration} />
 
                     <p>or</p>

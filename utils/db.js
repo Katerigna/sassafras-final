@@ -32,7 +32,7 @@ exports.getPassword = function(email) {
 exports.addEmail = function(user_id, owners_email) {
     return db
         .query(
-            `INSERT INTO cards (user_id, owners_email) VALUES ($1, $2) RETURNING id`,
+            `INSERT INTO cards (user_id, owners_email) VALUES ($1, $2) RETURNING id, owners_email`,
             [user_id, owners_email]
         )
         .then(({ rows }) => {
