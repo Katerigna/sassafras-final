@@ -6,6 +6,10 @@ const db = require("./utils/db");
 const { hash, compare } = require("./utils/bc");
 const tesseract = require("node-tesseract-ocr");
 const fs = require("fs");
+const readline = require("readline");
+const { google } = require("googleapis");
+
+const nodemailer = require("nodemailer");
 
 const config = {
     lang: "eng",
@@ -83,8 +87,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    console.log("request from post register: ", req.body);
-
     hash(req.body.password)
         .then(hash => {
             db.addUser(req.body.first, req.body.last, req.body.email, hash)
@@ -179,6 +181,50 @@ app.post("/scan", (req, res) => {
                 .catch(err => console.log("error on ocr", err));
         }
     );
+});
+
+app.post("/send", (req, res) => {
+    console.log("email address", req.body.email);
+    let receiverEmail = req.body.email;
+
+    async function main() {
+        let testAccount = await nodemailer.createTestAccount();
+
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                type: "OAuth2"
+            }
+        });
+
+        transporter.set("oauth2_provision_cb", (user, renew, callback) => {
+            let accessToken = userTokens[user];
+            if (!accessToken) {
+                return callback(new Error("Unknown user"));
+            } else {
+                return callback(null, accessToken);
+            }
+        });
+
+        let info = await transporter.sendMail({
+            from: '"Spiced Katsia" <spicedsassafras@gmail.com>',
+            to: receiverEmail,
+            subject: "Hello ✔",
+            text: "Hello world?",
+            html: "<b>Hello world?</b>",
+            auth: {
+                user: "spicedsassafras@gmail.com"
+            }
+        });
+
+        console.log("Message sent: %s", info.messageId);
+
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    }
+
+    main().catch(console.error);
 });
 
 app.get("*", function(req, res) {

@@ -5,30 +5,49 @@ import axios from "./axios";
 export default function Scan() {
     const webcamRef = React.useRef(null);
     const [modalVisible, setModalVisible] = useState(false);
-    const [email, setEmail] = useState("");
+    const [thanksVisible, setThanksVisible] = useState(false);
 
-    const capture = React.useCallback(() => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        console.log("capture", imageSrc);
+    let [email, setEmail] = useState("");
 
-        const image = {
-            imageSrc: imageSrc
-        };
-        axios
-            .post("./scan", image)
-            .then(response => {
-                console.log("email from server", response.data);
-                setModalVisible(true);
-                setEmail(response.data);
-            })
-            .catch(err => console.log("error on capture upload", err));
-    }, [webcamRef]);
+    const capture = React.useCallback(
+        e => {
+            e.preventDefault();
+            const imageSrc = webcamRef.current.getScreenshot();
+            // console.log("capture", imageSrc);
+
+            const image = {
+                imageSrc: imageSrc
+            };
+            axios
+                .post("/scan", image)
+                .then(response => {
+                    console.log("email from server", response.data);
+                    setModalVisible(true);
+                    setEmail(response.data);
+                })
+                .catch(err => console.log("error on capture upload", err));
+        },
+        [webcamRef]
+    );
 
     const videoConstraints = {
         width: 1280,
         height: 720,
         facingMode: "user"
     };
+
+    function handleSend(e) {
+        console.log("email", { email });
+        e.preventDefault();
+        axios
+            .post("/send", { email })
+            .then(response => {
+                console.log("response from server on email send", response);
+                setModalVisible(false);
+                setThanksVisible(true);
+            })
+            .catch(err => console.log("error on sending email", err));
+    }
 
     return (
         <div className="webcam">
@@ -45,8 +64,20 @@ export default function Scan() {
                 <div className="modal">
                     <p>Would you like to send a message to {email}?</p>
                     <div className="button-wrapper">
-                        <button>Send</button>
-                        <button>Cancel</button>
+                        <button onClick={handleSend}>Send</button>
+                        <button onClick={() => setModalVisible(false)}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            )}
+            {thanksVisible && (
+                <div className="modal">
+                    <p>Email was sent</p>
+                    <div className="button-wrapper">
+                        <button onClick={() => setThanksVisible(false)}>
+                            Ok
+                        </button>
                     </div>
                 </div>
             )}

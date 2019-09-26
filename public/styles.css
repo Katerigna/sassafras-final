@@ -78,9 +78,8 @@ button {
     font-size: 0.4em;
 }
 
-.reglogin-form button:hover {
-    font-size: 0.6em;
-    color: #fd931a;
+.reglogin-form button:active {
+    background-color: #ba9770;
 }
 
 .error,
@@ -106,6 +105,10 @@ button {
 
 .modal button {
     width: 33%;
+}
+
+.modal button:active {
+    background-color: #ba9770;
 }
 
 .button-wrapper {
