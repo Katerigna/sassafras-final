@@ -18,6 +18,10 @@ button {
     margin: 5%;
 }
 
+.logo {
+    margin: 2%;
+}
+
 .welcome-wrapper {
     display: flex;
     flex-direction: column;
@@ -27,16 +31,21 @@ button {
     height: 20%;
 }
 
-.welcome-container {
+.welcome-container,
+.welcome-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.welcome-container a {
+/* .welcome-container a {
     display: inline-block;
     margin: 0 20px;
+} */
+
+.welcome-container a:active {
+    background-color: #ba9770;
 }
 
 .form-wrapper {
@@ -82,6 +91,22 @@ button {
     background-color: #ba9770;
 }
 
+.or {
+    font-size: 0.5em;
+}
+
+.form-wrapper a {
+    background-color: #fd931a;
+    border: none;
+    border-radius: 5px;
+    color: #f2f2f2;
+    font-size: 0.4em;
+    padding: 4%;
+    margin: 5%;
+    text-decoration: none;
+    font-family: sans-serif;
+}
+
 .error,
 .modal {
     position: fixed;
@@ -91,10 +116,10 @@ button {
     border: 3px solid #5e6073;
     padding: 5%;
 }
-
+/*
 .modal p {
-    font-size: 0.5em;
-}
+    font-size: 0.3em;
+} */
 
 .webcam {
     display: flex;
@@ -104,7 +129,7 @@ button {
 }
 
 .modal button {
-    width: 33%;
+    width: 38%;
 }
 
 .modal button:active {
@@ -115,3 +140,54 @@ button {
     display: flex;
     justify-content: center;
 }
+
+/* .modal-sending .button-wrapper button {
+    font-size: 0.2em;
+}
+
+.modal .modal-sending button {
+    font-size: 0.2em;
+} */
+
+.modal-permission {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50%;
+}
+
+.modal-permission a {
+    margin-top: 0;
+}
+
+.modal-permission p {
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.modal .modal-permission button {
+    width: 250%;
+    padding: 30%;
+}
+
+.modal-sending {
+    font-size: 0.5em;
+}
+
+.modal p {
+    font-size: 0.7em;
+}
+
+.modal-thanks p {
+    text-align: center;
+}
+
+.modal-sending .send-request {
+    font-size: 0.4em;
+}
+
+/* .modal-sending button {
+    font-size: 0.4em;
+} */

@@ -61,8 +61,10 @@ export default function Scan() {
             />
             <button onClick={capture}>Capture photo</button>
             {modalVisible && (
-                <div className="modal">
-                    <p>Would you like to send a message to {email}?</p>
+                <div className="modal modal-sending">
+                    <p className="send-request">
+                        Would you like to send a message to {email}?
+                    </p>
                     <div className="button-wrapper">
                         <button onClick={handleSend}>Send</button>
                         <button onClick={() => setModalVisible(false)}>
@@ -72,11 +74,11 @@ export default function Scan() {
                 </div>
             )}
             {thanksVisible && (
-                <div className="modal">
-                    <p>Email was sent</p>
+                <div className="modal modal-thanks">
+                    <p>Thanks! The message is sent.</p>
                     <div className="button-wrapper">
                         <button onClick={() => setThanksVisible(false)}>
-                            Ok
+                            OK
                         </button>
                     </div>
                 </div>

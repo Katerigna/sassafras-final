@@ -6,8 +6,6 @@ const db = require("./utils/db");
 const { hash, compare } = require("./utils/bc");
 const tesseract = require("node-tesseract-ocr");
 const fs = require("fs");
-const readline = require("readline");
-const { google } = require("googleapis");
 
 const nodemailer = require("nodemailer");
 
@@ -184,44 +182,31 @@ app.post("/scan", (req, res) => {
 });
 
 app.post("/send", (req, res) => {
-    console.log("email address", req.body.email);
     let receiverEmail = req.body.email;
 
     async function main() {
-        let testAccount = await nodemailer.createTestAccount();
-
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 465,
             secure: true,
-            auth: {
-                type: "OAuth2"
-            }
-        });
 
-        transporter.set("oauth2_provision_cb", (user, renew, callback) => {
-            let accessToken = userTokens[user];
-            if (!accessToken) {
-                return callback(new Error("Unknown user"));
-            } else {
-                return callback(null, accessToken);
+            auth: {
+                user: require("./secrets.json").mailUser,
+                pass: require("./secrets.json").mailPwd
             }
         });
 
         let info = await transporter.sendMail({
-            from: '"Spiced Katsia" <spicedsassafras@gmail.com>',
+            from: '"Hello Spiced!" <spicedsassafras@gmail.com>',
             to: receiverEmail,
-            subject: "Hello ✔",
-            text: "Hello world?",
-            html: "<b>Hello world?</b>",
-            auth: {
-                user: "spicedsassafras@gmail.com"
-            }
+            subject: "Hello from Business Card Scanner",
+            text: "Hello! Your business card is received. Thank you!",
+            html:
+                "<b>Hello! Your business card is received. Thank you! Now we can be friends or spouses or just make business together. Awesome!</b></div>"
         });
 
         console.log("Message sent: %s", info.messageId);
-
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        res.json("Message sent");
     }
 
     main().catch(console.error);

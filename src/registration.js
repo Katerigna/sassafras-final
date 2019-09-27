@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "./axios";
+import Login from "./login";
+import { HashRouter, Route, Link } from "react-router-dom";
 
 export default function Registration() {
     const [user, setUser] = useState({});
@@ -35,8 +37,8 @@ export default function Registration() {
                     <div>Registration failed</div>
                 </div>
             )}
-
             <h2>Please register</h2>
+
             <form className="reglogin-form" onSubmit={handleSubmit}>
                 <label htmlFor="first" />
                 <input
@@ -67,6 +69,12 @@ export default function Registration() {
                     onChange={handleChange}
                 />
                 <button>Submit</button>
+
+                <HashRouter>
+                    <p className="or">or</p>
+                    <Route exact path="/login" component={Login} />
+                    <Link to="/login">Sign in</Link>
+                </HashRouter>
             </form>
         </div>
     );

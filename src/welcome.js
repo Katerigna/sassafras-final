@@ -8,14 +8,10 @@ export default function Welcome() {
         <HashRouter>
             <div className="welcome-wrapper">
                 <img src="https://media-public.canva.com/MAB-qPGeKKc/1/screen-1.svg" />
+                <h1>Business card scanner</h1>
                 <div className="welcome-container">
-                    <h1>Welcome!</h1>
-
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/" component={Registration} />
-
-                    <p>or</p>
-                    <Link to="/login">Log in</Link>
                 </div>
             </div>
         </HashRouter>
