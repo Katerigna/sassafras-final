@@ -80,9 +80,9 @@ if (process.env.NODE_ENV != "production") {
 }
 
 //routes
-app.get("/", (req, res) => {
-    res.redirect("/welcome");
-});
+// app.get("/", (req, res) => {
+//     res.redirect("/welcome");
+// });
 
 app.post("/register", (req, res) => {
     hash(req.body.password)
@@ -133,11 +133,9 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/scan", (req, res) => {
-    // console.log("user_id", req.session.userId);
-    // console.log("img", req.body.imageSrc);
     const imgBase64 = req.body.imageSrc;
     const imgFile = imgBase64.replace(/^data:image\/jpeg;base64,/, "");
-    // console.log("stripped image data", imgFile);
+
     const imageBuffer = Buffer.from(imgFile, "base64");
     fs.writeFile(
         "uploads/img.jpeg",
@@ -191,8 +189,15 @@ app.post("/send", (req, res) => {
             secure: true,
 
             auth: {
-                user: require("./secrets.json").mailUser,
-                pass: require("./secrets.json").mailPwd
+                user:
+                    process.env.NODE_ENV == "production"
+                        ? process.env.MAIL_USER
+                        : require("./secrets.json").sessionSecret,
+
+                pass:
+                    process.env.NODE_ENV == "production"
+                        ? process.env.MAIL_PWD
+                        : require("./secrets.json").sessionSecret
             }
         });
 
@@ -212,11 +217,16 @@ app.post("/send", (req, res) => {
     main().catch(console.error);
 });
 
+app.post("/logout", (req, res) => {
+    req.session.userId = null;
+    res.json("User logged out");
+});
+
 app.get("*", function(req, res) {
     res.sendFile(__dirname + "/index.html");
 });
 
 //server
-app.listen(8080, function() {
+app.listen(process.env.PORT || 8080, function() {
     console.log("I'm listening.");
 });

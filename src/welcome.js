@@ -11,7 +11,7 @@ export default function Welcome() {
                 <h1>Business card scanner</h1>
                 <div className="welcome-container">
                     <Route exact path="/login" component={Login} />
-                    <Route exact path="/" component={Registration} />
+                    <Route path="/" component={Registration} />
                 </div>
             </div>
         </HashRouter>

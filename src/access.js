@@ -14,12 +14,15 @@ export default function Access() {
             <div className="welcome-wrapper">
                 <div className="welcome-container">
                     {permission && (
-                        <div className="modal modal-permission">
-                            <p>Please allow access to your camera</p>
+                        <div className="welcome-container">
+                            <div className="modal modal-permission">
+                                <p>Please allow access to your camera</p>
 
-                            <Link to="/scan" className="modal-permission">
-                                <button onClick={handleClick}>OK</button>
-                            </Link>
+                                <Link to="/scan" className="modal-permission">
+                                    <button onClick={handleClick}>OK</button>
+                                </Link>
+                            </div>
+                            <div className="modal-overlay"></div>
                         </div>
                     )}
                     <Route exact path="/scan" component={Scan} />

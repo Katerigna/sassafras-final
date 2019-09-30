@@ -61,26 +61,32 @@ export default function Scan() {
             />
             <button onClick={capture}>Capture photo</button>
             {modalVisible && (
-                <div className="modal modal-sending">
-                    <p className="send-request">
-                        Would you like to send a message to {email}?
-                    </p>
-                    <div className="button-wrapper">
-                        <button onClick={handleSend}>Send</button>
-                        <button onClick={() => setModalVisible(false)}>
-                            Cancel
-                        </button>
+                <div>
+                    <div className="modal modal-sending">
+                        <p className="send-request">
+                            Would you like to send a message to {email}?
+                        </p>
+                        <div className="button-wrapper">
+                            <button onClick={handleSend}>Send</button>
+                            <button onClick={() => setModalVisible(false)}>
+                                Cancel
+                            </button>
+                        </div>
                     </div>
+                    <div className="modal-overlay"></div>
                 </div>
             )}
             {thanksVisible && (
-                <div className="modal modal-thanks">
-                    <p>Thanks! The message is sent.</p>
-                    <div className="button-wrapper">
-                        <button onClick={() => setThanksVisible(false)}>
-                            OK
-                        </button>
+                <div className="modal">
+                    <div className="modal modal-thanks">
+                        <p>Thanks! The message is sent.</p>
+                        <div className="button-wrapper">
+                            <button onClick={() => setThanksVisible(false)}>
+                                OK
+                            </button>
+                        </div>
                     </div>
+                    <div className="modal-overlay"></div>
                 </div>
             )}
         </div>
