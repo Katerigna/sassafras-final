@@ -32,8 +32,11 @@ export default function Login() {
     return (
         <div className="form-wrapper">
             {error && (
-                <div className="error">
-                    <div>Logging in failed</div>
+                <div>
+                    <div className="error">
+                        <div>Logging in failed</div>
+                    </div>
+                    <div className="modal-overlay"></div>
                 </div>
             )}
 

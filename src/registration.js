@@ -30,11 +30,23 @@ export default function Registration() {
             .catch(err => console.log("error on registering", err));
     };
 
+    const handleClick = e => {
+        e.preventDefault();
+        setError(false);
+        setUser({});
+    };
+
     return (
         <div className="form-wrapper">
             {error && (
-                <div className="error">
-                    <div>Registration failed</div>
+                <div>
+                    <div className="error">
+                        <div>Registration failed</div>
+                        <div className="button-wrapper">
+                            <button onClick={handleClick}>Try again</button>
+                        </div>
+                    </div>
+                    <div className="modal-overlay"></div>
                 </div>
             )}
             <h2>Please register</h2>

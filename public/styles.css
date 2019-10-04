@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-size: 1.4em;
+    font-size: 16px;
     color: #5e6073;
 }
 
@@ -11,7 +11,7 @@ body {
 button {
     background-color: #fd931a;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     color: #f2f2f2;
     font-size: 0.4em;
     padding: 4%;
@@ -28,7 +28,7 @@ button {
 }
 
 .welcome-wrapper img {
-    height: 20%;
+    height: 50px;
 }
 
 .welcome-container,
@@ -61,22 +61,28 @@ button {
 }
 
 .form-wrapper h2 {
-    width: 75%;
-    margin-left: 25%;
+    width: 85%;
+    margin-left: 5%;
+    font-size: 1.2em;
 }
 
 .reglogin-form input {
-    width: 80%;
+    width: 90%;
 
     border: none;
-    border-bottom: 3px solid #5e6073;
+    border-bottom: 0.5px solid #5e6073;
     background-color: #f2f2f2;
-    font-size: 0.4em;
-    margin: 0.3em;
+    font-size: 0.7em;
+    margin: 1em;
 }
 
 .reglogin-form input:hover {
-    border: 3px solid #fd931a; /*orange*/
+    border: none;
+    border-bottom: 0.5px solid #fd931a; /*orange*/
+}
+.reglogin-form input:focus {
+    border: none;
+    border-bottom: 0.5px solid #fd931a; /*orange*/
 }
 
 .reglogin-form label {
@@ -110,10 +116,10 @@ button {
 .error,
 .modal {
     position: fixed;
-    width: 80%;
+
     background-color: white;
     font-size: 0.8em;
-    border: 3px solid #5e6073;
+    border: 1px solid #5e6073;
     padding: 5%;
     border-radius: 5px;
     z-index: 10;
@@ -204,4 +210,15 @@ button {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9;
+}
+
+.error {
+    left: 40.5%;
+    padding: 3%;
+    font-size: 0.8em;
+}
+
+.error button {
+    font-size: 0.6em;
+    width: 50%;
 }
