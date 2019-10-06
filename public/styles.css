@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 26px;
     color: #5e6073;
 }
 
@@ -29,6 +29,7 @@ button {
 
 .welcome-wrapper img {
     height: 50px;
+    margin: 10%;
 }
 
 .welcome-container,
@@ -39,10 +40,10 @@ button {
     justify-content: center;
 }
 
-/* .welcome-container a {
-    display: inline-block;
-    margin: 0 20px;
-} */
+.welcome-wrapper h1 {
+    font-size: 1.5em;
+    text-align: center;
+}
 
 .welcome-container a:active {
     background-color: #ba9770;
@@ -90,7 +91,7 @@ button {
 }
 
 .reglogin-form button {
-    font-size: 0.4em;
+    font-size: 0.7em;
 }
 
 .reglogin-form button:active {
@@ -98,15 +99,17 @@ button {
 }
 
 .or {
-    font-size: 0.5em;
+    font-size: 0.7em;
+    font-family: sans-serif;
+    margin: 10% 0 0 0;
 }
 
 .form-wrapper a {
     background-color: #fd931a;
     border: none;
-    border-radius: 5px;
+    border-radius: 3px;
     color: #f2f2f2;
-    font-size: 0.4em;
+    font-size: 0.7em;
     padding: 4%;
     margin: 5%;
     text-decoration: none;
@@ -116,13 +119,13 @@ button {
 .error,
 .modal {
     position: fixed;
-
     background-color: white;
     font-size: 0.8em;
     border: 1px solid #5e6073;
     padding: 5%;
     border-radius: 5px;
     z-index: 10;
+    overflow: auto;
 }
 
 .webcam {
@@ -213,8 +216,8 @@ button {
 }
 
 .error {
-    left: 40.5%;
-    padding: 3%;
+    left: 11%;
+    padding: 10%;
     font-size: 0.8em;
 }
 

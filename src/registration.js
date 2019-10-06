@@ -44,6 +44,7 @@ export default function Registration() {
                         <div>Registration failed</div>
                         <div className="button-wrapper">
                             <button onClick={handleClick}>Try again</button>
+                            <button onClick={handleClick}>Close</button>
                         </div>
                     </div>
                     <div className="modal-overlay"></div>
@@ -80,10 +81,10 @@ export default function Registration() {
                     placeholder="Password"
                     onChange={handleChange}
                 />
-                <button>Submit</button>
+                <button>Next</button>
 
                 <HashRouter>
-                    <p className="or">or</p>
+                    <p className="or">Already have an account?</p>
                     <Route exact path="/login" component={Login} />
                     <Link to="/login">Sign in</Link>
                 </HashRouter>
