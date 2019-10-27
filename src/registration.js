@@ -41,6 +41,7 @@ export default function Registration() {
             {error && (
                 <div>
                     <div className="error">
+                        <div className="close"></div>
                         <div>Registration failed</div>
                         <div className="button-wrapper">
                             <button onClick={handleClick}>Try again</button>

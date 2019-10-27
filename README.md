@@ -12,3 +12,4 @@ TECHNOLOGIES
 
 JavaScript, Node, Express, PostgreSQL, React with hooks
 
+![](scanner-demo.gif)

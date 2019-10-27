@@ -217,8 +217,17 @@ button {
 
 .error {
     left: 11%;
-    padding: 10%;
+    padding: 0 10% 10% 10%;
     font-size: 0.8em;
+}
+
+.close:after {
+    position: relative;
+    content: "\d7";
+    font-size: 1em;
+    color: #5e6073;
+    font-weight: bold;
+    left: 103%;
 }
 
 .error button {
