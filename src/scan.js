@@ -38,6 +38,7 @@ export default function Scan() {
 
     function handleSend(e) {
         console.log("email", { email });
+
         e.preventDefault();
         axios
             .post("/send", { email })
